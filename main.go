@@ -11,7 +11,8 @@ import (
 )
 
 var (
-	port = flag.Int("port", 8000, "")
+	port  = flag.Int("port", 8000, "Listening port for API")
+	debug = flag.Bool("debug", false, "Debug mode")
 
 	seq sequencer
 )
@@ -28,8 +29,11 @@ func main() {
 	}
 	log.Printf("NODE ID : %d", seq.nodeId)
 
-	gin.SetMode(gin.ReleaseMode)
-	//gin.SetMode(gin.DebugMode)
+	if *debug {
+		gin.SetMode(gin.DebugMode)
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+	}
 
 	g := gin.New()
 	g.Use(gin.Logger())
